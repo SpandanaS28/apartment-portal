@@ -1,5 +1,3 @@
-.
-
 🏢 Apartment Portal System
 
 A full-stack Apartment Management Portal built using Angular, Flask, PostgreSQL, and Docker.
