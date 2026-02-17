@@ -223,4 +223,4 @@ Deployment on cloud platform
 👩‍💻 Author
 
 SHobhitha Spandana S
-Software Developer
+Full Stack Developer
