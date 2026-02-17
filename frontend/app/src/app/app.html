@@ -1,7 +1,40 @@
-<h1>Apartment Portal</h1>
+<div class="container">
 
-<h2>Backend Message:</h2>
-<p>{{ backendMessage }}</p>
+  <h1>🏢 Apartment Portal</h1>
 
-<h2>Health Status:</h2>
-<p>{{ healthStatus }}</p>
+  <div class="form-card">
+    <h2>Add Apartment</h2>
+
+    <input type="text" placeholder="Title"
+           [(ngModel)]="newApartment.title">
+
+    <input type="number" placeholder="Price"
+           [(ngModel)]="newApartment.price">
+
+    <input type="text" placeholder="Location"
+           [(ngModel)]="newApartment.location">
+
+    <select [(ngModel)]="newApartment.category_id">
+      <option value="1">1BHK</option>
+      <option value="2">2BHK</option>
+      <option value="3">3BHK</option>
+    </select>
+
+    <button (click)="addApartment()">Add</button>
+  </div>
+
+  <hr>
+
+  <h2>Apartments List</h2>
+
+  <div *ngFor="let apt of apartments" class="card">
+    <h3>{{ apt.title }}</h3>
+    <p>💰 Price: ₹{{ apt.price }}</p>
+    <p>📍 Location: {{ apt.location }}</p>
+    <p>🏠 Category: {{ apt.category_name }}</p>
+    <button class="delete" (click)="deleteApartment(apt.id)">
+      Delete
+    </button>
+  </div>
+
+</div>

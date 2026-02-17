@@ -1,35 +1,54 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ApiService, Apartment } from './api.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule],
-  template: `
-    <h2>Apartments List</h2>
-
-    <div *ngFor="let apt of apartments" 
-         style="border:1px solid #ccc; padding:10px; margin:10px;">
-
-      <h3>{{ apt.title }}</h3>
-      <p>Price: ₹{{ apt.price }}</p>
-      <p>Location: {{ apt.location }}</p>
-      <p>Category: {{ apt.category_name }}</p>
-
-    </div>
-  `
+  imports: [CommonModule, FormsModule],
+  templateUrl: './app.html',
+  styleUrls: ['./app.css']
 })
-export class App implements OnInit {
+export class AppComponent implements OnInit {
 
-  apartments: Apartment[] = [];
+  apartments: any[] = [];
 
-  constructor(private api: ApiService) {}
+  newApartment = {
+    title: '',
+    price: 0,
+    location: '',
+    category_id: 1
+  };
+
+  backendUrl = 'http://localhost:5000';
+
+  constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.api.getApartments().subscribe(data => {
-      this.apartments = data;
-    });
+    this.loadApartments();
+  }
+
+  loadApartments() {
+    this.http.get<any[]>(`${this.backendUrl}/apartments`)
+      .subscribe(data => {
+        this.apartments = data;
+      });
+  }
+
+  addApartment() {
+    this.http.post(`${this.backendUrl}/apartments`, this.newApartment)
+      .subscribe(() => {
+        this.loadApartments();
+        this.newApartment = { title: '', price: 0, location: '', category_id: 1 };
+      });
+  }
+
+  deleteApartment(id: number) {
+    this.http.delete(`${this.backendUrl}/apartments/${id}`)
+      .subscribe(() => {
+        this.loadApartments();
+      });
   }
 }
 
